@@ -45,6 +45,12 @@ public class User implements UserDetails {
         this.nickname = nickname;
     }
 
+    public void update(String nickname, String profileImage) {
+        this.nickname = nickname;
+        this.profileImage = profileImage;
+    }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()

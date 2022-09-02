@@ -1,11 +1,8 @@
 package com.app.zero.controller;
 
-import com.app.zero.dto.user.LoginRequestDto;
-import com.app.zero.dto.user.LoginResponseDto;
-import com.app.zero.dto.user.SignUpRequestDto;
 import com.app.zero.dto.user.UserResponseDto;
-import com.app.zero.service.AuthService;
 
+import com.app.zero.dto.user.UserUpdateRequestDto;
 import com.app.zero.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +23,11 @@ public class UserController {
     @DeleteMapping("/users/{userIdx}")
     public ResponseEntity<Long> delete(@PathVariable Long userIdx) {
         return new ResponseEntity<>(userService.delete(userIdx), HttpStatus.OK);
+    }
+
+    @PatchMapping("/users/{userIdx}")
+    public ResponseEntity<Long> update(@PathVariable Long userIdx, @RequestBody UserUpdateRequestDto requestDto) {
+        return new ResponseEntity<>(userService.update(requestDto), HttpStatus.OK);
     }
 }
 
