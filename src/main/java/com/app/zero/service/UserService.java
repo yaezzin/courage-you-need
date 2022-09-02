@@ -1,14 +1,18 @@
 package com.app.zero.service;
 
+import com.app.zero.config.jwt.JwtTokenProvider;
 import com.app.zero.domain.user.User;
-import com.app.zero.dto.user.SignUpRequestDto;
+import com.app.zero.dto.user.*;
 import com.app.zero.exception.user.UserNicknameAlreadyExistException;
 import com.app.zero.exception.user.UserPhoneNumberAlreadyExistException;
 import com.app.zero.exception.user.UserPhoneNumberRegexException;
 import com.app.zero.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,20 +22,39 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     /* 회원 가입 */
-    public User signUp(SignUpRequestDto requestDto) {
+    public UserResponseDto signUp(SignUpRequestDto requestDto) {
         validateSignUpInfo(requestDto);
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
-        return userRepository.save(new User(requestDto.getPhoneNumber(), encodedPassword, requestDto.getNickname()));
+
+        User user = userRepository.save(
+                User.builder()
+                        .phoneNumber(requestDto.getPhoneNumber())
+                        .password(encodedPassword)
+                        .nickname(requestDto.getNickname())
+                        .build());
+
+        return new UserResponseDto(user.getUserIdx(), user.getPhoneNumber(), user.getNickname());
+    }
+
+    /* 로그인 */
+    public LoginResponseDto login(LoginRequestDto requestDto) {
+        User user = userRepository.findByPhoneNumber(requestDto.getPhoneNumber()).orElseThrow();
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+        return new LoginResponseDto(user.getUserIdx(), requestDto.getPhoneNumber(), jwtTokenProvider.createToken(requestDto.getPhoneNumber()));
     }
 
     private void validateSignUpInfo(SignUpRequestDto requestDto) {
-        User findUserPhoneNumber = userRepository.findByPhoneNumber(requestDto.getPhoneNumber());
+        boolean existUserByPhoneNumber = userRepository.existsUserByPhoneNumber(requestDto.getPhoneNumber());
         User findUserNickname = userRepository.findByNickname(requestDto.getNickname());
 
-        if (findUserPhoneNumber != null) {
+        if (existUserByPhoneNumber) {
             throw new UserPhoneNumberAlreadyExistException();
         }
 

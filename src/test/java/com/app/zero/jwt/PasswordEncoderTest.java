@@ -1,4 +1,4 @@
-package com.app.zero;
+package com.app.zero.jwt;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
