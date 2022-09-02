@@ -16,18 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final AuthService authService;
     private final UserService userService;
-
-    @PostMapping("/users/sign-up")
-    public ResponseEntity<UserResponseDto> singUp(@RequestBody SignUpRequestDto signUpRequestDto) {
-        return new ResponseEntity<>(authService.signUp(signUpRequestDto), HttpStatus.OK);
-    }
-
-    @PostMapping("/users/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
-        return new ResponseEntity<>(authService.login(loginRequestDto), HttpStatus.OK);
-    }
 
     @GetMapping("/users/{userIdx}")
     public ResponseEntity<UserResponseDto> findById(@PathVariable Long userIdx) {

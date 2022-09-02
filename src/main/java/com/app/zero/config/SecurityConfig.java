@@ -42,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                //.antMatchers("/user/**").authenticated() // 로그인 해야 권한 o
-                //.antMatchers("/admin/**").access("hasRole("ADMIN")") // 로그인 + admin 권한까지 있어야 함
+                .antMatchers("/users/**").authenticated() // 로그인 해야 권한 o
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
