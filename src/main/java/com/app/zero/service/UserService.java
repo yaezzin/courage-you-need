@@ -18,4 +18,10 @@ public class UserService {
         return new UserResponseDto(user.getUserIdx(), user.getPhoneNumber(), user.getNickname());
     }
 
+    public Long delete(Long userIdx) {
+        userRepository.deleteById(userIdx);
+        return userIdx;
+    }
+
+
 }
