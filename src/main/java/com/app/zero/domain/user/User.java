@@ -36,8 +36,6 @@ public class User implements UserDetails {
 
     private String profileImage;
 
-    private String refreshToken;
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
