@@ -1,5 +1,6 @@
 package com.app.zero.domain.user;
 
+import com.app.zero.domain.board.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,6 +36,9 @@ public class User implements UserDetails {
 
     private String profileImage;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, orphanRemoval = true)
+    private List<Board> board = new ArrayList<>();
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -48,7 +52,6 @@ public class User implements UserDetails {
         this.nickname = nickname;
         this.profileImage = profileImage;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

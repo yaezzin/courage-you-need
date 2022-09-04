@@ -24,12 +24,13 @@ public class Board {
 
     private int viewCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
     private User user;
 
     @Builder
-    public Board(String title, String description) {
+    public Board(User user, String title, String description) {
+        this.user = user;
         this.title = title;
         this.description = description;
     }
