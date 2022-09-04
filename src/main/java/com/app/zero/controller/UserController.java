@@ -16,17 +16,17 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users/{userIdx}")
-    public ResponseEntity<UserResponseDto> findById(@PathVariable Long userIdx) {
-        return new ResponseEntity<>(userService.findById(userIdx), HttpStatus.OK);
+    public ResponseEntity<UserResponseDto> findById(@PathVariable("userIdx") Long id) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userIdx}")
-    public ResponseEntity<Long> delete(@PathVariable Long userIdx) {
-        return new ResponseEntity<>(userService.delete(userIdx), HttpStatus.OK);
+    public ResponseEntity<Long> delete(@PathVariable("userIdx") Long id) {
+        return new ResponseEntity<>(userService.delete(id), HttpStatus.OK);
     }
 
     @PatchMapping("/users/{userIdx}")
-    public ResponseEntity<Long> update(@PathVariable Long userIdx, @RequestBody UserUpdateRequestDto requestDto) {
+    public ResponseEntity<Long> update(@PathVariable("userIdx") Long id, @RequestBody UserUpdateRequestDto requestDto) {
         return new ResponseEntity<>(userService.update(requestDto), HttpStatus.OK);
     }
 }

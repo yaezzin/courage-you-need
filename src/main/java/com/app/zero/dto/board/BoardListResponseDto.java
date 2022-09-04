@@ -13,7 +13,7 @@ public class BoardListResponseDto {
     private String title;
 
     public BoardListResponseDto(Board board) {
-        this.boardIdx = board.getBoardIdx();
+        this.boardIdx = board.getId();
         this.title = board.getTitle();
     }
 }

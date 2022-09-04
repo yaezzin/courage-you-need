@@ -14,7 +14,7 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardIdx;
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -25,11 +25,11 @@ public class Board {
     private int viewCount;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Builder
-    public Board(User user, String title, String description) {
+    public Board(String title, String description, User user) {
         this.user = user;
         this.title = title;
         this.description = description;

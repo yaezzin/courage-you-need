@@ -6,6 +6,8 @@ import com.app.zero.domain.user.User;
 import com.app.zero.dto.board.BoardListResponseDto;
 import com.app.zero.dto.board.BoardRequestDto;
 import com.app.zero.dto.board.BoardResponseDto;
+import com.app.zero.exception.board.BoardNotFoundException;
+import com.app.zero.exception.user.UserNotFoundException;
 import com.app.zero.repository.BoardRepository;
 import com.app.zero.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,7 @@ public class BoardService {
     public BoardResponseDto create(BoardRequestDto requestDto) {
         User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
         Board board = boardRepository.save(requestDto.toEntity());
-        return new BoardResponseDto(board.getBoardIdx(), board.getTitle(), board.getDescription(), board.getViewCount(), user);
+        return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), user);
     }
 
     public List<BoardListResponseDto> getBoards() {
@@ -35,6 +37,23 @@ public class BoardService {
                 .map(BoardListResponseDto::new)
                 .collect(Collectors.toList());
         return boards;
+    }
+
+    public Board getBoard(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException());
+        return board;
+    }
+
+    @Transactional
+    public BoardResponseDto update(Long boardIdx, BoardRequestDto requestDto) {
+        Board board = boardRepository.findById(boardIdx).orElseThrow(() -> new BoardNotFoundException());
+        board.update(requestDto.getTitle(), requestDto.getDescription());
+        return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), loginUser());
+    }
+
+    // 현재 로그인한 유저 리턴
+    private User loginUser() {
+        return userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
     }
 
 }

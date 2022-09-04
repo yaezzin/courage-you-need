@@ -14,15 +14,15 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserResponseDto findById(Long userIdx) {
-        User user = userRepository.findById(userIdx).orElseThrow();
-        return new UserResponseDto(user.getUserIdx(), user.getPhoneNumber(), user.getNickname());
+    public UserResponseDto findById(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        return new UserResponseDto(user.getId(), user.getPhoneNumber(), user.getNickname());
     }
 
     public Long update(UserUpdateRequestDto requestDto) {
         User user = userRepository.findById(requestDto.getUserIdx()).orElseThrow();
         user.update(requestDto.getNickname(), requestDto.getProfileImage());
-        return user.getUserIdx();
+        return user.getId();
     }
 
     public Long delete(Long userIdx) {

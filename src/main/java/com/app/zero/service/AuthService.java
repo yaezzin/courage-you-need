@@ -37,7 +37,7 @@ public class AuthService {
                         .nickname(requestDto.getNickname())
                         .build());
 
-        return new UserResponseDto(user.getUserIdx(), user.getPhoneNumber(), user.getNickname());
+        return new UserResponseDto(user.getId(), user.getPhoneNumber(), user.getNickname());
     }
 
     /* 로그인 */
@@ -48,7 +48,7 @@ public class AuthService {
         if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
-        return new LoginResponseDto(user.getUserIdx(), requestDto.getPhoneNumber(), jwtTokenProvider.createToken(requestDto.getPhoneNumber()));
+        return new LoginResponseDto(user.getId(), requestDto.getPhoneNumber(), jwtTokenProvider.createToken(requestDto.getPhoneNumber()));
     }
 
     private void validateSignUpInfo(SignUpRequestDto requestDto) {
