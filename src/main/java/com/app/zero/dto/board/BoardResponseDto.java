@@ -1,6 +1,8 @@
 package com.app.zero.dto.board;
 
 
+import com.app.zero.domain.board.Board;
+import com.app.zero.domain.board.Wish;
 import com.app.zero.domain.user.User;
 import lombok.*;
 
@@ -12,5 +14,15 @@ public class BoardResponseDto {
     private String title;
     private String description;
     private int viewCount;
-    private User user;
+    private long wishCount;
+    private String nickname;
+
+    public BoardResponseDto(Board board) {
+        this.boardIdx = board.getId();
+        this.title = board.getTitle();
+        this.description = board.getDescription();
+        this.viewCount = board.getViewCount();
+        this.wishCount = board.getWish().stream().count();
+        this.nickname = board.getUser().getNickname();
+    }
 }

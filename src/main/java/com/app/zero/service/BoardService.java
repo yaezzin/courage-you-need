@@ -29,27 +29,27 @@ public class BoardService {
         User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
         requestDto.setUser(user); // 유저 정보를 가져와서 Dto에 담아준다
         Board board = boardRepository.save(requestDto.toEntity());
-        return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), user);
+        return new BoardResponseDto(board);
     }
 
-    public List<BoardListResponseDto> getBoards() {
-        List<BoardListResponseDto> boards = boardRepository.findAll()
+    public List<BoardResponseDto> getBoards() {
+        List<BoardResponseDto> boards = boardRepository.findAll()
                 .stream()
-                .map(BoardListResponseDto::new)
+                .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
         return boards;
     }
 
-    public Board getBoard(Long id) {
+    public BoardResponseDto getBoard(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException());
-        return board;
+        return new BoardResponseDto(board);
     }
 
     @Transactional
     public BoardResponseDto update(Long boardIdx, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(boardIdx).orElseThrow(() -> new BoardNotFoundException());
         board.update(requestDto.getTitle(), requestDto.getDescription());
-        return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), loginUser());
+        return new BoardResponseDto(board);
     }
 
     @Transactional

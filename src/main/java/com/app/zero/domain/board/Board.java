@@ -7,6 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -25,10 +29,12 @@ public class Board {
 
     private int viewCount;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Wish> wish = new ArrayList<>();
 
     @Builder
     public Board(String title, String description, User user) {

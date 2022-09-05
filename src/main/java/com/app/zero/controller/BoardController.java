@@ -26,25 +26,25 @@ public class BoardController {
 
     /* 게시물 전체 조회 */
     @GetMapping("/boards")
-    public ResponseEntity<List<BoardListResponseDto>> getBoards() {
+    public ResponseEntity<List<BoardResponseDto>> getBoards() {
         return new ResponseEntity<>(boardService.getBoards(), HttpStatus.OK);
     }
 
     /* 게시물 조회 by BoardIdx */
     @GetMapping("/boards/{boardIdx}")
-    public ResponseEntity<Board> getBoard(@PathVariable("boardIdx") Long id) {
+    public ResponseEntity<BoardResponseDto> getBoard(@PathVariable("boardIdx") Long id) {
         return new ResponseEntity<>(boardService.getBoard(id), HttpStatus.OK);
-    }
-
-    /* 게시물 조회수 증가 */
-    @PatchMapping("/boards/{boardIdx}/view")
-    public ResponseEntity<Integer> updateViewCount(@PathVariable("boardIdx") Long id) {
-        return new ResponseEntity<>(boardService.updateViewCount(id), HttpStatus.OK);
     }
 
     /* 게시물 수정 */
     @PatchMapping("/boards/{boardIdx}")
     public ResponseEntity<BoardResponseDto> update(@PathVariable("boardIdx") Long id, @RequestBody BoardRequestDto requestDto) {
         return new ResponseEntity<>(boardService.update(id, requestDto), HttpStatus.OK);
+    }
+
+    /* 게시물 조회수 증가 */
+    @PatchMapping("/boards/{boardIdx}/view")
+    public ResponseEntity<Integer> updateViewCount(@PathVariable("boardIdx") Long id) {
+        return new ResponseEntity<>(boardService.updateViewCount(id), HttpStatus.OK);
     }
 }
