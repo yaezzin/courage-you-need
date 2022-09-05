@@ -23,4 +23,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     List<Board> findByTitleContaining(String keyword);
 
+    @Query("select b from Board b where b.category.id = :id")
+    List<Board> finaByCategory(Long id);
+
 }

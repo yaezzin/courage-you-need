@@ -53,6 +53,12 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getBoardsByWishCount(), HttpStatus.OK);
     }
 
+    /* 게시물 조회 - 카테고리 */
+    @GetMapping("/boards/category")
+    public ResponseEntity<List<BoardResponseDto>> getBoardsByCategory(@RequestParam("id") Long id) {
+        return new ResponseEntity<>(boardService.getBoardsByCategory(id), HttpStatus.OK);
+    }
+
     /* 게시물 수정 */
     @PatchMapping("/boards/{boardIdx}")
     public ResponseEntity<BoardResponseDto> update(@PathVariable("boardIdx") Long id, @RequestBody BoardRequestDto requestDto) {
