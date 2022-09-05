@@ -43,6 +43,13 @@ public class BoardService {
         return boards;
     }
 
+    public List<BoardResponseDto> getBoardsByWishCount() {
+        List<BoardResponseDto> boards = boardRepository.findAllOrderByWishDesc()
+                .stream()
+                .map(BoardResponseDto::new)
+                .collect(Collectors.toList());
+        return boards;
+    }
 
     @Transactional
     public BoardResponseDto create(BoardRequestDto requestDto) {

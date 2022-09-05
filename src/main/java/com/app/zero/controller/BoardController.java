@@ -36,11 +36,16 @@ public class BoardController {
     }
 
     /* 게시물 조회 - 조회수 */
-    @GetMapping("/boards/view")
+    @GetMapping("/boards/order/view")
     public ResponseEntity<List<BoardResponseDto>> getBoardsByViewCount() {
         return new ResponseEntity<>(boardService.getBoardsByViewCount(), HttpStatus.OK);
     }
 
+    /* 게시물 조회 - 좋아요 */
+    @GetMapping("/boards/order/wish")
+    public ResponseEntity<List<BoardResponseDto>> getBoardsByWishCount() {
+        return new ResponseEntity<>(boardService.getBoardsByWishCount(), HttpStatus.OK);
+    }
 
     /* 게시물 수정 */
     @PatchMapping("/boards/{boardIdx}")
