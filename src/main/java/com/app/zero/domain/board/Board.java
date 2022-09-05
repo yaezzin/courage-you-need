@@ -42,10 +42,11 @@ public class Board {
     private List<Wish> wish = new ArrayList<>();
 
     @Builder
-    public Board(String title, String description, User user) {
+    public Board(String title, String description, User user, BoardCategory category) {
         this.user = user;
         this.title = title;
         this.description = description;
+        this.category = category;
     }
 
     public void update(String title, String description) {

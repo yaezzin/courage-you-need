@@ -51,7 +51,6 @@ public class BoardService {
         return boards;
     }
 
-
     public List<BoardResponseDto> getBoardsByWishCount() {
         List<BoardResponseDto> boards = boardRepository.findAllOrderByWishDesc()
                 .stream()
@@ -64,6 +63,8 @@ public class BoardService {
     public BoardResponseDto create(BoardRequestDto requestDto) {
         User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
         requestDto.setUser(user); // 유저 정보를 가져와서 Dto에 담아준다
+        requestDto.setCategory(requestDto.getCategory());
+
         Board board = boardRepository.save(requestDto.toEntity());
         return new BoardResponseDto(board);
     }

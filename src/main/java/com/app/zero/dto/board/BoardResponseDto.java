@@ -16,6 +16,7 @@ public class BoardResponseDto {
     private int viewCount;
     private long wishCount;
     private String nickname;
+    private String category;
 
     public BoardResponseDto(Board board) {
         this.boardIdx = board.getId();
@@ -24,5 +25,6 @@ public class BoardResponseDto {
         this.viewCount = board.getViewCount();
         this.wishCount = board.getWish().stream().count();
         this.nickname = board.getUser().getNickname();
+        this.category = board.getCategory().getName();
     }
 }
