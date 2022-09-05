@@ -1,5 +1,6 @@
 package com.app.zero.controller;
 
+import com.app.zero.domain.board.Board;
 import com.app.zero.dto.board.BoardRequestDto;
 import com.app.zero.dto.board.BoardResponseDto;
 import com.app.zero.service.BoardService;
@@ -33,6 +34,13 @@ public class BoardController {
     public ResponseEntity<BoardResponseDto> getBoard(@PathVariable("boardIdx") Long id) {
         return new ResponseEntity<>(boardService.getBoard(id), HttpStatus.OK);
     }
+
+    /* 게시물 조회 - 조회수 */
+    @GetMapping("/boards/view")
+    public ResponseEntity<List<BoardResponseDto>> getBoardsByViewCount() {
+        return new ResponseEntity<>(boardService.getBoardsByViewCount(), HttpStatus.OK);
+    }
+
 
     /* 게시물 수정 */
     @PatchMapping("/boards/{boardIdx}")

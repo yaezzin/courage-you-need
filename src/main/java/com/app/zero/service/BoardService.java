@@ -35,6 +35,15 @@ public class BoardService {
         return new BoardResponseDto(board);
     }
 
+    public List<BoardResponseDto> getBoardsByViewCount() {
+        List<BoardResponseDto> boards = boardRepository.findAllOrderByViewCountDesc()
+                .stream()
+                .map(BoardResponseDto::new)
+                .collect(Collectors.toList());
+        return boards;
+    }
+
+
     @Transactional
     public BoardResponseDto create(BoardRequestDto requestDto) {
         User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
@@ -71,4 +80,5 @@ public class BoardService {
     private User loginUser() {
         return userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
     }
+
 }
