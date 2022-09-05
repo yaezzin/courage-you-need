@@ -3,11 +3,9 @@ package com.app.zero.service;
 import com.app.zero.config.util.SecurityUtil;
 import com.app.zero.domain.board.Board;
 import com.app.zero.domain.user.User;
-import com.app.zero.dto.board.BoardListResponseDto;
 import com.app.zero.dto.board.BoardRequestDto;
 import com.app.zero.dto.board.BoardResponseDto;
 import com.app.zero.exception.board.BoardNotFoundException;
-import com.app.zero.exception.user.UserNotFoundException;
 import com.app.zero.repository.BoardRepository;
 import com.app.zero.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +22,6 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
-    @Transactional
-    public BoardResponseDto create(BoardRequestDto requestDto) {
-        User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
-        requestDto.setUser(user); // 유저 정보를 가져와서 Dto에 담아준다
-        Board board = boardRepository.save(requestDto.toEntity());
-        return new BoardResponseDto(board);
-    }
-
     public List<BoardResponseDto> getBoards() {
         List<BoardResponseDto> boards = boardRepository.findAll()
                 .stream()
@@ -46,6 +36,14 @@ public class BoardService {
     }
 
     @Transactional
+    public BoardResponseDto create(BoardRequestDto requestDto) {
+        User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
+        requestDto.setUser(user); // 유저 정보를 가져와서 Dto에 담아준다
+        Board board = boardRepository.save(requestDto.toEntity());
+        return new BoardResponseDto(board);
+    }
+
+    @Transactional
     public BoardResponseDto update(Long boardIdx, BoardRequestDto requestDto) {
         Board board = boardRepository.findById(boardIdx).orElseThrow(() -> new BoardNotFoundException());
         board.update(requestDto.getTitle(), requestDto.getDescription());
@@ -55,6 +53,18 @@ public class BoardService {
     @Transactional
     public int updateViewCount(Long id) {
         return boardRepository.updateViewCount(id); // 항상 1 리턴 -> 하지만 게시물 조회하면 증가되어있음
+    }
+
+    @Transactional
+    public String delete(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException());
+        // 게시글 작성자가 지금 로그인한 유저와 같으면 삭제
+        if (board.getUser().equals(loginUser())) {
+            boardRepository.deleteById(id);
+            return "게시글 삭제에 성공하였습니다.";
+        } else {
+            return "게시글 삭제 권한이 없습니다.";
+        }
     }
 
     // 현재 로그인한 유저 리턴

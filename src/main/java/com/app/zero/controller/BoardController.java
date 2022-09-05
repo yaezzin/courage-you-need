@@ -1,7 +1,5 @@
 package com.app.zero.controller;
 
-import com.app.zero.domain.board.Board;
-import com.app.zero.dto.board.BoardListResponseDto;
 import com.app.zero.dto.board.BoardRequestDto;
 import com.app.zero.dto.board.BoardResponseDto;
 import com.app.zero.service.BoardService;
@@ -47,4 +45,11 @@ public class BoardController {
     public ResponseEntity<Integer> updateViewCount(@PathVariable("boardIdx") Long id) {
         return new ResponseEntity<>(boardService.updateViewCount(id), HttpStatus.OK);
     }
+
+    /* 게시물 삭제 */
+    @DeleteMapping("/boards/{boardIdx}")
+    public String delete(@PathVariable("boardIdx") Long id) {
+        return boardService.delete(id);
+    }
+
 }

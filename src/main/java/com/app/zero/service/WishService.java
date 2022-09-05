@@ -18,15 +18,14 @@ public class WishService {
 
     private final WishRepository wishRepository;
     private final BoardRepository boardRepository;
-    private final UserRepository userRepository;
 
     public void addWish(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException());
 
-        if (isNotAlreadyWish(user, board)) {
+        if (isNotAlreadyWish(user, board)) { // 좋아요가 없으면 추가
             wishRepository.save(new Wish(board, user));
         }
-        else {
+        else { // 이미 있으면 삭제
             Wish wish = wishRepository.getWishByUserAndBoard(user, board);
             wishRepository.delete(wish);
         }
