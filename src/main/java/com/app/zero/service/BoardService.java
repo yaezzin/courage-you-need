@@ -43,6 +43,15 @@ public class BoardService {
         return boards;
     }
 
+    public List<BoardResponseDto> getBoardsByKeyword(String keyword) {
+        List<BoardResponseDto> boards = boardRepository.findByTitleContaining(keyword)
+                .stream()
+                .map(BoardResponseDto::new)
+                .collect(Collectors.toList());
+        return boards;
+    }
+
+
     public List<BoardResponseDto> getBoardsByWishCount() {
         List<BoardResponseDto> boards = boardRepository.findAllOrderByWishDesc()
                 .stream()

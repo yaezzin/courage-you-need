@@ -35,6 +35,12 @@ public class BoardController {
         return new ResponseEntity<>(boardService.getBoard(id), HttpStatus.OK);
     }
 
+    /* 키워드 검색 */
+    @GetMapping("/boards/keyword")
+    public ResponseEntity<List<BoardResponseDto>> getBoardsByKeyword(@RequestParam String keyword) {
+        return new ResponseEntity<>(boardService.getBoardsByKeyword(keyword), HttpStatus.OK);
+    }
+
     /* 게시물 조회 - 조회수 */
     @GetMapping("/boards/order/view")
     public ResponseEntity<List<BoardResponseDto>> getBoardsByViewCount() {
