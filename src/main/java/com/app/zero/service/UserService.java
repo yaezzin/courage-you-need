@@ -1,11 +1,15 @@
 package com.app.zero.service;
 
 import com.app.zero.domain.user.User;
+import com.app.zero.dto.board.BoardListResponseDto;
 import com.app.zero.dto.user.UserResponseDto;
 import com.app.zero.dto.user.UserUpdateRequestDto;
 import com.app.zero.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -13,6 +17,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 
     public UserResponseDto findById(Long id) {
         User user = userRepository.findById(id).orElseThrow();
