@@ -35,4 +35,10 @@ public class CategoryService {
                 .collect(Collectors.toList());
         return categories;
     }
+
+    @Transactional
+    public Long deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+        return id;
+    }
 }
