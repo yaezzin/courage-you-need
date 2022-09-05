@@ -2,6 +2,7 @@ package com.app.zero.domain.board;
 
 import com.app.zero.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.jfr.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,10 @@ public class Board {
     @ManyToOne @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne
+    @JoinColumn
+    private BoardCategory category;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<Wish> wish = new ArrayList<>();
