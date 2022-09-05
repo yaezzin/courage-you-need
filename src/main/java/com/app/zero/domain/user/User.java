@@ -1,6 +1,7 @@
 package com.app.zero.domain.user;
 
 import com.app.zero.domain.board.Board;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class User implements UserDetails {
 
     private String profileImage;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE, orphanRemoval = true)
     private List<Board> board = new ArrayList<>();
 

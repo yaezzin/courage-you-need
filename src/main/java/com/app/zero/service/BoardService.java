@@ -27,6 +27,7 @@ public class BoardService {
     @Transactional
     public BoardResponseDto create(BoardRequestDto requestDto) {
         User user = userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
+        requestDto.setUser(user); // 유저 정보를 가져와서 Dto에 담아준다
         Board board = boardRepository.save(requestDto.toEntity());
         return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), user);
     }
@@ -51,9 +52,13 @@ public class BoardService {
         return new BoardResponseDto(board.getId(), board.getTitle(), board.getDescription(), board.getViewCount(), loginUser());
     }
 
+    @Transactional
+    public int updateViewCount(Long id) {
+        return boardRepository.updateViewCount(id); // 항상 1 리턴 -> 하지만 게시물 조회하면 증가되어있음
+    }
+
     // 현재 로그인한 유저 리턴
     private User loginUser() {
         return userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
     }
-
 }
