@@ -1,6 +1,7 @@
 package com.app.zero.controller;
 
 import com.app.zero.config.util.SecurityUtil;
+import com.app.zero.domain.board.Wish;
 import com.app.zero.domain.user.User;
 import com.app.zero.dto.board.BoardResponseDto;
 import com.app.zero.repository.UserRepository;
@@ -26,7 +27,11 @@ public class MyPageController {
         return new ResponseEntity<>(myPageService.findUserBoards(loginUser()), HttpStatus.OK);
     }
 
-
+    /* 유저가 스크랩(wish)한 게시물 조회 */
+    @GetMapping("/mypage/wish")
+    public ResponseEntity<List<BoardResponseDto>> findUserWishBoards() {
+        return new ResponseEntity<>(myPageService.findUserWishBoards(loginUser()), HttpStatus.OK);
+    }
 
     private User loginUser() {
         return userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();

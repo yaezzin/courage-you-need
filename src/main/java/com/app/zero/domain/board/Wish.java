@@ -1,10 +1,12 @@
 package com.app.zero.domain.board;
 
 import com.app.zero.domain.user.User;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
 @NoArgsConstructor
 @Entity
 public class Wish {
