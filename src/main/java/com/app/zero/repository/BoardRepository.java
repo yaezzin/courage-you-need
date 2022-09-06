@@ -1,7 +1,7 @@
 package com.app.zero.repository;
 
 import com.app.zero.domain.board.Board;
-import com.app.zero.dto.board.BoardResponseDto;
+import com.app.zero.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +26,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("select b from Board b where b.category.id = :id")
     List<Board> finaByCategory(Long id);
 
+    List<Board> findByUser(User user);
 }
