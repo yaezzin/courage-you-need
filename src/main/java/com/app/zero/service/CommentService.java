@@ -37,7 +37,6 @@ public class CommentService {
         comment.addCommentInfo(user, board);
         commentRepository.save(comment);
         return new CommentResponseDto(comment);
-        //return new CommentResponseDto(comment.getId(), comment.getComment(), comment.getLikes().stream().count(), user.getNickname(), user.getProfileImage(), comment.getModifiedAt());
     }
 
     public void addCommentLike(Long commentIdx, User user) {
@@ -61,6 +60,13 @@ public class CommentService {
             commentList.add(commentResponseDto);
         }
         return commentList;
+    }
+
+    public CommentResponseDto getHotComment(Long boardIdx) {
+        Board board = boardRepository.findById(boardIdx).orElseThrow(() -> new BoardNotFoundException());
+
+        Comment comment = commentRepository.findTop1ByOrderByLikes();
+        return new CommentResponseDto(comment);
     }
 
     @Transactional
@@ -90,5 +96,4 @@ public class CommentService {
     private boolean isNotAlreadyWish(User user, Comment comment) {
         return commentLikeRepository.findByUserAndComment(user, comment).isEmpty();
     }
-
 }

@@ -1,6 +1,7 @@
 package com.app.zero.controller;
 
 import com.app.zero.config.util.SecurityUtil;
+import com.app.zero.domain.board.Comment;
 import com.app.zero.domain.user.User;
 import com.app.zero.dto.comment.CommentRequestDto;
 import com.app.zero.dto.comment.CommentResponseDto;
@@ -36,9 +37,15 @@ public class CommentController {
     }
 
     /* 댓글 전체 조회*/
-    @GetMapping("boards/{boardIdx}/comments")
+    @GetMapping("/boards/{boardIdx}/comments")
     public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable("boardIdx") Long id) {
         return new ResponseEntity<>(commentService.getComments(id), HttpStatus.OK);
+    }
+
+    /* 좋아요가 가장 많은 댓글 가져오기 */
+    @GetMapping("/boards/{boardIdx}/comments/hot")
+    public ResponseEntity<CommentResponseDto> getHotComment(@PathVariable("boardIdx") Long id) {
+        return new ResponseEntity<>(commentService.getHotComment(id), HttpStatus.OK);
     }
 
     /* 댓글 수정 */
