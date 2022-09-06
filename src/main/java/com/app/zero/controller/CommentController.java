@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class CommentController {
@@ -22,6 +24,11 @@ public class CommentController {
     @PostMapping("/boards/{boardIdx}/comments")
     public ResponseEntity<CommentResponseDto> createComment(@PathVariable("boardIdx") Long id, @RequestBody CommentRequestDto commentRequestDto) {
         return new ResponseEntity<>(commentService.createComment(id, loginUser(), commentRequestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("boards/{boardIdx}/comments")
+    public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable("boardIdx") Long id) {
+        return new ResponseEntity<>(commentService.getComments(id), HttpStatus.OK);
     }
 
     @PutMapping("/boards/{boardIdx}/comments/{commentIdx}")

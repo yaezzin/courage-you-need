@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -33,6 +36,17 @@ public class CommentService {
         return new CommentResponseDto(comment.getId(), comment.getComment(), user.getNickname(), user.getProfileImage(), comment.getModifiedAt());
     }
 
+    public List<CommentResponseDto> getComments(Long id) {
+        Board board = boardRepository.findById(id).orElseThrow(() -> new BoardNotFoundException());
+        List<Comment> comments = commentRepository.findAllByBoardId(board.getId());
+        List<CommentResponseDto> commentList = new ArrayList<>();
+        for (Comment c : comments) {
+            CommentResponseDto commentResponseDto = new CommentResponseDto(c); // 응답값으로 바꾸기
+            commentList.add(commentResponseDto);
+        }
+        return commentList;
+    }
+
     @Transactional
     public CommentResponseDto updateComment(Long id, User user, CommentUpdateRequestDto requestDto) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException());
@@ -47,6 +61,7 @@ public class CommentService {
         return new CommentResponseDto(comment.getId(), comment.getComment(), user.getNickname(), user.getProfileImage(), comment.getModifiedAt());
     }
 
+    @Transactional
     public void deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException());
 
@@ -55,4 +70,5 @@ public class CommentService {
         }
         commentRepository.deleteById(id);
     }
+
 }
