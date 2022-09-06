@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -28,6 +30,9 @@ public class Comment extends BaseEntity {
     @ManyToOne
     @JoinColumn
     private Board board;
+
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL) // 댓글 좋아요 수
+    private List<CommentLike> likes = new ArrayList<>();
 
     @Builder
     public Comment(String comment, User user, Board board) {

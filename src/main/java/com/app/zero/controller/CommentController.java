@@ -21,16 +21,27 @@ public class CommentController {
     private final CommentService commentService;
     private final UserRepository userRepository;
 
+
+    /* 댓글 생성 */
     @PostMapping("/boards/{boardIdx}/comments")
     public ResponseEntity<CommentResponseDto> createComment(@PathVariable("boardIdx") Long id, @RequestBody CommentRequestDto commentRequestDto) {
         return new ResponseEntity<>(commentService.createComment(id, loginUser(), commentRequestDto), HttpStatus.OK);
     }
 
+    /* 댓글 좋아요 */
+    @PostMapping("/boards/{boardIdx}/comments/{commentIdx}")
+    public void addCommentLike(@PathVariable("boardIdx") Long boardIdx,
+                               @PathVariable("commentIdx") Long commentIdx) {
+        commentService.addCommentLike(commentIdx, loginUser());
+    }
+
+    /* 댓글 전체 조회*/
     @GetMapping("boards/{boardIdx}/comments")
     public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable("boardIdx") Long id) {
         return new ResponseEntity<>(commentService.getComments(id), HttpStatus.OK);
     }
 
+    /* 댓글 수정 */
     @PutMapping("/boards/{boardIdx}/comments/{commentIdx}")
     public ResponseEntity<CommentResponseDto> updateComment(@PathVariable("boardIdx") Long boardIdx,
                                           @PathVariable("commentIdx") Long commentIdx,
@@ -38,6 +49,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(commentIdx, loginUser(), requestDto), HttpStatus.OK);
     }
 
+    /* 댓글 삭제 */
     @DeleteMapping("/boards/{boardIdx}/comments/{commentIdx}")
     public void deleteComment(@PathVariable("boardIdx") Long boardIdx, @PathVariable("commentIdx") Long commentIdx) {
         commentService.deleteComment(commentIdx, loginUser());
