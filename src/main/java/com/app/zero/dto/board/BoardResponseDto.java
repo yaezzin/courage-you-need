@@ -2,9 +2,14 @@ package com.app.zero.dto.board;
 
 
 import com.app.zero.domain.board.Board;
+import com.app.zero.domain.board.Comment;
 import com.app.zero.domain.board.Wish;
 import com.app.zero.domain.user.User;
+import com.app.zero.dto.comment.CommentResponseDto;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -17,6 +22,7 @@ public class BoardResponseDto {
     private long wishCount;
     private String nickname;
     private String category;
+    //private List<CommentResponseDto> comments;
 
     public BoardResponseDto(Board board) {
         this.boardIdx = board.getId();
@@ -26,5 +32,6 @@ public class BoardResponseDto {
         this.wishCount = board.getWish().stream().count();
         this.nickname = board.getUser().getNickname();
         this.category = board.getCategory().getName();
+        //this.comments = board.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }

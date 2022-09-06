@@ -2,6 +2,7 @@ package com.app.zero.domain.board;
 
 import com.app.zero.config.util.BaseEntity;
 import com.app.zero.domain.user.User;
+import com.app.zero.dto.comment.CommentUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,10 @@ public class Comment extends BaseEntity {
     public void addCommentInfo(User user, Board board){
         this.user = user;
         this.board = board;
+    }
+
+    public void updateComment(CommentUpdateRequestDto requestDto) {
+        this.comment = requestDto.getComment();
     }
 
 }
