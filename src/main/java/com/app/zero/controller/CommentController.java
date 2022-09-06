@@ -31,6 +31,11 @@ public class CommentController {
         return new ResponseEntity<>(commentService.updateComment(commentIdx, loginUser(), requestDto), HttpStatus.OK);
     }
 
+    @DeleteMapping("/boards/{boardIdx}/comments/{commentIdx}")
+    public void deleteComment(@PathVariable("boardIdx") Long boardIdx, @PathVariable("commentIdx") Long commentIdx) {
+        commentService.deleteComment(commentIdx, loginUser());
+    }
+
     private User loginUser() {
         return userRepository.findByPhoneNumber(SecurityUtil.getLoginUsername()).orElseThrow();
     }

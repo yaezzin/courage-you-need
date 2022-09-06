@@ -7,6 +7,7 @@ import com.app.zero.dto.comment.CommentRequestDto;
 import com.app.zero.dto.comment.CommentResponseDto;
 import com.app.zero.dto.comment.CommentUpdateRequestDto;
 import com.app.zero.exception.board.BoardNotFoundException;
+import com.app.zero.exception.comment.CommentNotAuthException;
 import com.app.zero.exception.comment.CommentNotFoundException;
 import com.app.zero.repository.BoardRepository;
 import com.app.zero.repository.CommentRepository;
@@ -38,7 +39,7 @@ public class CommentService {
 
         // 댓글 작성자랑 현재 로그인한 작성자가 다르면
         if (!comment.getUser().getNickname().equals(user.getNickname())) {
-            throw new IllegalArgumentException();
+            throw new CommentNotAuthException();
         }
 
         comment.updateComment(requestDto);
@@ -46,4 +47,12 @@ public class CommentService {
         return new CommentResponseDto(comment.getId(), comment.getComment(), user.getNickname(), user.getProfileImage(), comment.getModifiedAt());
     }
 
+    public void deleteComment(Long id, User user) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException());
+
+        if (!comment.getUser().getNickname().equals(user.getNickname())) {
+            throw new CommentNotAuthException();
+        }
+        commentRepository.deleteById(id);
+    }
 }
