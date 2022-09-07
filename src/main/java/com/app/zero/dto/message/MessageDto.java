@@ -1,7 +1,6 @@
 package com.app.zero.dto.message;
 
 import com.app.zero.domain.message.Message;
-import com.app.zero.dto.user.CUserDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
