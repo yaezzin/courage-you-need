@@ -19,23 +19,24 @@ import java.util.function.Consumer;
 @Transactional(readOnly = true)
 @Service
 public class MessageService {
-    private final MessageRepository messageRepository;
-    private final UserRepository memberRepository;
 
-    public MessageListDto readAllBySender(MessageReadCondition cond) {
+    private final MessageRepository messageRepository;
+    private final UserRepository userRepository;
+
+    public MessageListDto getMessagesBySender(MessageReadCondition cond) {
         return MessageListDto.toDto(
                 messageRepository.findAllBySenderIdOrderByMessageIdDesc(cond.getMemberId(), cond.getLastMessageId(), Pageable.ofSize(cond.getSize()))
         );
     }
 
-    public MessageListDto readAllByReceiver(MessageReadCondition cond) {
+    public MessageListDto getMessagesByReceiver(MessageReadCondition cond) {
         return MessageListDto.toDto(
                 messageRepository.findAllByReceiverIdOrderByMessageIdDesc(cond.getMemberId(), cond.getLastMessageId(), Pageable.ofSize(cond.getSize()))
         );
     }
 
     @PreAuthorize("@messageGuard.check(#id)")
-    public MessageDto read(Long id) {
+    public MessageDto getMessageById(Long id) {
         return MessageDto.toDto(
                 messageRepository.findWithSenderAndReceiverById(id).orElseThrow(MessageNotFoundException::new)
         );
@@ -43,8 +44,8 @@ public class MessageService {
 
     @Transactional
     public void create(MessageCreateRequestDto req) {
-        User sender = memberRepository.findById(req.getMemberId()).orElseThrow(UserNotFoundException::new);
-        User receiver = memberRepository.findById(req.getReceiverId()).orElseThrow(UserNotFoundException::new);
+        User sender = userRepository.findById(req.getMemberId()).orElseThrow(UserNotFoundException::new);
+        User receiver = userRepository.findById(req.getReceiverId()).orElseThrow(UserNotFoundException::new);
         Message message = new Message(req.getContent(), sender, receiver);
         messageRepository.save(message);
     }

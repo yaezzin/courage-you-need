@@ -1,7 +1,5 @@
 package com.app.zero.dto.message;
 
-import com.sun.istack.NotNull;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
