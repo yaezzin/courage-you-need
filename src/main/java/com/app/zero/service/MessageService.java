@@ -3,7 +3,7 @@ package com.app.zero.service;
 import com.app.zero.domain.message.Message;
 import com.app.zero.domain.user.User;
 import com.app.zero.dto.message.*;
-import com.app.zero.exception.MessageNotFoundException;
+import com.app.zero.exception.message.MessageNotFoundException;
 import com.app.zero.exception.user.UserNotFoundException;
 import com.app.zero.repository.MessageRepository;
 import com.app.zero.repository.UserRepository;
