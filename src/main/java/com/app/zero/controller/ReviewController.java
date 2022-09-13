@@ -26,4 +26,9 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.getReviews(), HttpStatus.OK);
     }
 
+    @GetMapping("/reviews/{reviewIdx}")
+    public ResponseEntity<ReviewResponseDto> getReview(@PathVariable("reviewIdx") Long id) {
+        return new ResponseEntity<>(reviewService.getReview(id), HttpStatus.OK);
+    }
+
 }
