@@ -6,9 +6,9 @@ import com.app.zero.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,6 +19,11 @@ public class ReviewController {
     @PostMapping("/reviews")
     public ResponseEntity<ReviewResponseDto> create(@RequestBody ReviewCreateRequestDto requestDto) {
         return new ResponseEntity<>(reviewService.create(requestDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/reviews")
+    public ResponseEntity<List<ReviewResponseDto>> getReviews() {
+        return new ResponseEntity<>(reviewService.getReviews(), HttpStatus.OK);
     }
 
 }
