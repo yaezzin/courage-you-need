@@ -31,4 +31,9 @@ public class ReviewController {
         return new ResponseEntity<>(reviewService.getReview(id), HttpStatus.OK);
     }
 
+    @DeleteMapping("/reviews/{reviewIdx}")
+    public String delete(@PathVariable("reviewIdx") Long id) {
+        reviewService.delete(id);
+        return "성공적으로 삭제되었습니다.";
+    }
 }
