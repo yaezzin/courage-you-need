@@ -34,7 +34,7 @@ public class Board {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private BoardCategory category;
 

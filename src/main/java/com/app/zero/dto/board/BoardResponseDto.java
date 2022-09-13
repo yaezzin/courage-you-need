@@ -2,6 +2,7 @@ package com.app.zero.dto.board;
 
 
 import com.app.zero.domain.board.Board;
+import com.app.zero.domain.board.BoardCategory;
 import com.app.zero.domain.board.Comment;
 import com.app.zero.domain.board.Wish;
 import com.app.zero.domain.user.User;
@@ -19,9 +20,9 @@ public class BoardResponseDto {
     private String title;
     private String description;
     private int viewCount;
-    private long wishCount;
+    private Long wishCount;
     private String nickname;
-    private long category;
+    private Long category;
     //private List<CommentResponseDto> comments;
 
     public BoardResponseDto(Board board) {

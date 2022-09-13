@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,11 +18,16 @@ public class BoardCategory {
     @Column(length = 30, nullable = false)
     private String name;
 
-    @OneToMany()
-    private List<Board> boards;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent")
+    private BoardCategory parent;
 
-    public BoardCategory(String name) {
+    @OneToMany(mappedBy = "parent")
+    private List<BoardCategory> children = new ArrayList<>();
+
+    public BoardCategory(String name, BoardCategory parent) {
         this.name = name;
+        this.parent = parent;
     }
 
 }
