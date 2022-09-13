@@ -21,7 +21,7 @@ public class BoardResponseDto {
     private int viewCount;
     private long wishCount;
     private String nickname;
-    private String category;
+    private long category;
     //private List<CommentResponseDto> comments;
 
     public BoardResponseDto(Board board) {
@@ -31,7 +31,7 @@ public class BoardResponseDto {
         this.viewCount = board.getViewCount();
         this.wishCount = board.getWish().stream().count();
         this.nickname = board.getUser().getNickname();
-        this.category = board.getCategory().getName();
+        this.category = board.getCategory().getId();
         //this.comments = board.getComments().stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 }
