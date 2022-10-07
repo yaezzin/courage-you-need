@@ -1,5 +1,6 @@
 package com.app.zero.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -14,10 +15,14 @@ import java.net.URLEncoder;
 @RestController
 public class AddressController {
 
+    @Value("${api-key}")
+    private String apiKey;
+
+    @Value("${api-url}")
+    private String apiUrl;
+
     @RequestMapping(value = "/map", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
     public String getKakaoApiFromAddress(@RequestParam("address") String roadFullAddr) {
-        String apiKey = "fea3256b84ff0ecb62642eedb0bfb8ae";
-        String apiUrl = "https://dapi.kakao.com/v2/local/search/address.json";
         String jsonString = null;
 
         try {
@@ -54,8 +59,6 @@ public class AddressController {
 
     @RequestMapping(value = "/key", method = RequestMethod.GET, produces="application/json;charset=UTF-8")
     public String getKakaoApiFromKeyword(@RequestParam("keyword") String keyword) {
-        String apiKey = "fea3256b84ff0ecb62642eedb0bfb8ae";
-        String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json";
         String jsonString = null;
 
         try {
